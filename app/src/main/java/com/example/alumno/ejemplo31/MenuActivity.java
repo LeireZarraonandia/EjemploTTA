@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.content.Intent;
+import android.widget.EditText;
 import android.widget.TextView;
 
 
@@ -29,8 +30,15 @@ public class MenuActivity extends AppCompatActivity {
         });
 
         Intent intent = getIntent();
-        TextView textLogin = (TextView) findViewById(R.id.menu_login);
-        textLogin.setText(intent.getStringExtra(MainActivity.EXTRA_LOGIN));
+        String bienvenido;
+        TextView textBienvenido = (TextView) findViewById(R.id.menu_tittle);
+        bienvenido="Bienvenido "+intent.getStringExtra(MainActivity.EXTRA_LOGIN);
+        textBienvenido.setText(bienvenido);
+
+        TextView textLeccion = (TextView) findViewById(R.id.menu_lesson);
+        textLeccion.setText("Leccion 1");
+
+
     }
 
 
