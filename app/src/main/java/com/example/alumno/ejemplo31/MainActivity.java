@@ -1,6 +1,7 @@
 package com.example.alumno.ejemplo31;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -60,7 +61,17 @@ public class MainActivity extends AppCompatActivity {
         intent.putExtra(EXTRA_LOGIN, editLogin.getText().toString());
         intent.putExtra(EXTRA_PASSW, editPassd.getText().toString());
         startActivity(intent);
+    }
 
+    private String loadLogin() {
+        SharedPreferences prefs = getPreferences(MODE_PRIVATE);
+        return prefs.getString(EXTRA_LOGIN, null);
+    }
 
+    private void saveLogin(String login) {
+        SharedPreferences prefs = getPreferences(MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString(EXTRA_LOGIN, login);
+        editor.commit();
     }
 }

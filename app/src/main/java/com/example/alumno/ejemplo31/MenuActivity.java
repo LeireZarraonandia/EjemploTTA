@@ -8,6 +8,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.content.Intent;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 
@@ -41,7 +42,15 @@ public class MenuActivity extends AppCompatActivity {
 
     }
 
+    public void test (View view) {
+        Intent intent = new Intent(this, TestActivity.class);
 
+        startActivity(intent);
+    }
 
+    public void exercise (View view) {
+        Intent intent = new Intent(this, ExerciseActivity.class);
 
+        startActivity(intent);
+    }
 }

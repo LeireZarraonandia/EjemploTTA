@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:orientation="vertical"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:showIn="@layout/activity_exercise"
+    tools:context="com.example.alumno.ejemplo31.ExerciseActivity">
+
+    <Button
+        android:id="@+id/subir_fichero"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/subir_fichero"
+        android:onClick="subir_fichero"/>
+
+    <Button
+        android:id="@+id/sacar_foto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/sacar_foto"
+        android:onClick="sacar_foto"/>
+
+    <Button
+        android:id="@+id/grabar_audio"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/grabar_audio"
+        android:onClick="grabar_audio"/>
+
+    <Button
+        android:id="@+id/grabar_video"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/grabar_video"
+        android:onClick="grabar_video"/>
+
+</LinearLayout>
