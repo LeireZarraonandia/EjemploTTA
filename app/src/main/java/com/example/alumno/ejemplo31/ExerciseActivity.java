@@ -70,4 +70,18 @@ public class ExerciseActivity extends AppCompatActivity {
         }
     }
 
+    public void grabar_audio (View v){
+        if (!getPackageManager().hasSystemFeature(PackageManager.FEATURE_MICROPHONE))
+            Toast.makeText(this, "No hay micro", Toast.LENGTH_SHORT).show();
+        else{
+            Intent intent = new Intent(MediaStore.Audio.Media.RECORD_SOUND_ACTION);
+            if (intent.resolveActivity(getPackageManager())!= null){
+                startActivityForResult(intent, 1);//eing???
+
+            }
+            else
+                Toast.makeText(this, "No hay aplicacion", Toast.LENGTH_SHORT).show();
+        }
+    }
+
 }
