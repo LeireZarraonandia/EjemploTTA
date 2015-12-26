@@ -1,8 +1,12 @@
 package com.example.alumno.ejemplo31;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Picture;
+import android.net.ConnectivityManager;
+import android.net.Network;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -14,8 +18,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Toast;
 
+import java.io.DataOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 public class ExerciseActivity extends AppCompatActivity {
 
@@ -34,6 +42,12 @@ public class ExerciseActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+    }
+
+    public void subir_fichero (View v){
+
+
+
     }
 
     public void sacar_foto (View v){
@@ -83,5 +97,8 @@ public class ExerciseActivity extends AppCompatActivity {
                 Toast.makeText(this, "No hay aplicacion", Toast.LENGTH_SHORT).show();
         }
     }
+
+
+
 
 }
