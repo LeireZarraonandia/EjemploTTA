@@ -1,5 +1,6 @@
 package com.example.alumno.ejemplo31;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -27,30 +28,33 @@ import java.net.URL;
 
 public class ExerciseActivity extends AppCompatActivity {
 
+    public final static int READ_REQUEST_CODE=1;
+    public final static int VIDEO_REQUEST_CODE=2;
+    public final static int AUDIO_REQUEST_CODE=3;
+    public final static int PICTURE_REQUEST_CODE=4;
+    private Uri pictureURI;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exercise);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        final Data data = new Data();
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-    }
-
-    public void subir_fichero (View v){
-
-
 
     }
 
-    public void sacar_foto (View v){
+    public void sendFile (View v){
+
+        Intent i=new Intent(Intent.ACTION_GET_CONTENT);
+        i.addCategory(Intent.CATEGORY_OPENABLE);
+        i.setType("*/*");
+        startActivityForResult(i, READ_REQUEST_CODE);
+
+    }
+
+    public void sendPicture (View v){
         if (!getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA))
             Toast.makeText(this, "No hay camara", Toast.LENGTH_SHORT).show();
         else{
@@ -61,7 +65,7 @@ public class ExerciseActivity extends AppCompatActivity {
                     File file = File.createTempFile("tta", ".jpg", dir);
                     Uri pictureUri = Uri.fromFile(file);
                     intent.putExtra(MediaStore.EXTRA_OUTPUT, pictureUri);
-                    startActivity(intent);
+                    startActivityForResult(intent, PICTURE_REQUEST_CODE);
                 } catch (IOException e) {}
 
                 }
@@ -70,13 +74,13 @@ public class ExerciseActivity extends AppCompatActivity {
         }
     }
 
-    public void grabar_video (View v){
+    public void recordVideo (View v){
         if (!getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA))
             Toast.makeText(this, "No hay camara", Toast.LENGTH_SHORT).show();
         else{
             Intent intent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
             if (intent.resolveActivity(getPackageManager())!= null){
-                startActivityForResult(intent, 1);//eing???
+                startActivityForResult(intent, VIDEO_REQUEST_CODE);
 
             }
             else
@@ -84,14 +88,13 @@ public class ExerciseActivity extends AppCompatActivity {
         }
     }
 
-    public void grabar_audio (View v){
+    public void recordAudio (View v){
         if (!getPackageManager().hasSystemFeature(PackageManager.FEATURE_MICROPHONE))
             Toast.makeText(this, "No hay micro", Toast.LENGTH_SHORT).show();
         else{
             Intent intent = new Intent(MediaStore.Audio.Media.RECORD_SOUND_ACTION);
             if (intent.resolveActivity(getPackageManager())!= null){
-                startActivityForResult(intent, 1);//eing???
-
+                startActivityForResult(intent, AUDIO_REQUEST_CODE);
             }
             else
                 Toast.makeText(this, "No hay aplicacion", Toast.LENGTH_SHORT).show();
@@ -99,6 +102,24 @@ public class ExerciseActivity extends AppCompatActivity {
     }
 
 
+    public void onActivityResult(int requestCode,int resultCode,Intent data){
+        if(resultCode != Activity.RESULT_OK)
+            return;
+        switch(requestCode){
+            case READ_REQUEST_CODE:
+               // sendFile(data.getData());
+                break;
+            case VIDEO_REQUEST_CODE:
+                //sendFile(data.getData());
+                break;
+            case AUDIO_REQUEST_CODE:
+                //sendFile(data.getData());
+                break;
+            case PICTURE_REQUEST_CODE:
+                //sendFile(pictureURI);
+                break;
+        }
+    }
 
 
 }

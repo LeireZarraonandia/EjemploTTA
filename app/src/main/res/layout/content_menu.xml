@@ -28,6 +28,13 @@
         android:gravity="center"
         android:textSize="18dp"/>
 
+    <TextView
+        android:id="@+id/exercise_wording"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textSize="18dp"/>
+
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

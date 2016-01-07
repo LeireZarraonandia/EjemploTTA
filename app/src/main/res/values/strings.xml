@@ -13,4 +13,5 @@
     <string name="sacar_foto">Sacar foto</string>
     <string name="grabar_audio">Grabar audio</string>
     <string name="grabar_video">Grabar video</string>
+    <string name="test_button_send">Enviar</string>
 </resources>

@@ -10,25 +10,21 @@ import android.content.Intent;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
-public class MenuActivity extends AppCompatActivity {
+public class MenuActivity extends ModelActivity {
+    public final RestClient rest=new RestClient(baseURL);
+    Business business=new Business(rest);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
 
         Intent intent = getIntent();
         String bienvenido;
@@ -38,8 +34,6 @@ public class MenuActivity extends AppCompatActivity {
 
         TextView textLeccion = (TextView) findViewById(R.id.menu_lesson);
         textLeccion.setText("Leccion 1");
-
-
     }
 
     public void test (View view) {
@@ -49,8 +43,20 @@ public class MenuActivity extends AppCompatActivity {
     }
 
     public void exercise (View view) {
-        Intent intent = new Intent(this, ExerciseActivity.class);
+        final Intent intent = new Intent(this, ExerciseActivity.class);
 
-        startActivity(intent);
+        new ProgressTask<Exercise>(this){
+            @Override
+            protected Exercise work()throws Exception{
+                return business.getExercise(1);//devuelve el enunciado del ejercicio
+            }
+            @Override
+            public void onFinish(Exercise result){
+                TextView textWording=(TextView)findViewById(R.id.exercise_wording);
+                textWording.setText(result.getWording());
+                startActivity(intent);
+                Toast.makeText(getApplicationContext(), "onFinish", Toast.LENGTH_SHORT).show();
+            }
+        }.execute();
     }
 }

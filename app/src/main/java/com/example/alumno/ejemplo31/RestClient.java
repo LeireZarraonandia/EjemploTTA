@@ -1,5 +1,7 @@
 package com.example.alumno.ejemplo31;
 
+import android.util.Base64;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -27,8 +29,9 @@ public class RestClient {
         this.baseUrl = baseUrl;
     }
 
-    public void setHttpBasicAuth (String user, String passwd){
-
+    public void setHttpBasicAuth(String user,String passwd){
+        String basicAuth= Base64.encodeToString(String.format("%s:%s", user, passwd).getBytes(), Base64.DEFAULT);
+        properties.put(AUTH,String.format("Basic %s",basicAuth));
     }
 
     public String getAuthorization (){
