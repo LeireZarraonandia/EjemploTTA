@@ -16,27 +16,27 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/subir_fichero"
-        android:onClick="subir_fichero"/>
+        android:onClick="sendFile"/>
 
     <Button
         android:id="@+id/sacar_foto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/sacar_foto"
-        android:onClick="sacar_foto"/>
+        android:onClick="sendPicture"/>
 
     <Button
         android:id="@+id/grabar_audio"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/grabar_audio"
-        android:onClick="grabar_audio"/>
+        android:onClick="recordAudio"/>
 
     <Button
         android:id="@+id/grabar_video"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/grabar_video"
-        android:onClick="grabar_video"/>
+        android:onClick="recordVideo"/>
 
 </LinearLayout>

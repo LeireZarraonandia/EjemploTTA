@@ -1,87 +1,92 @@
 package com.example.alumno.ejemplo31;
 
+import org.json.JSONException;
+
 /**
  * Created by leire on 5/01/16.
  */
 
 public class Test {
 
-    protected String getWording(){
+    private String wording;
+    private Choice[] choices;
 
-        String preguntaTest="¿Cual de las siguientes opciones NO se indica en el fichero de manifiesto de la app?";
-
-        return preguntaTest;
-    }
-
-    public Choice[]getChoices(){
-
-        Choice [] choices= new Choice[5];
-
-        choices[0]=new Choice("Versión de la aplicación",false);
-        choices[1]= new Choice("Listado de componentes de la aplicación",false);
-        choices[2]= new Choice(  "Opciones del menú de ajustes",true);
-        choices[3]= new Choice( "Nivel mínimo de la API Android requerida",false);
-        choices[4]= new Choice("Nombre del paquete java de la aplicación",false);
-
-        return choices;
+    public Test(String WordingGeneral, int [] id,String [] choicesWording, String [] advise,
+                boolean [] correct, String [] resourceType) {
+        wording = WordingGeneral;
+        if(choicesWording.length == correct.length){
+            choices = new Choice[correct.length];
+            int i = 0;
+            for(String choice : choicesWording){
+                choices[i] = new Choice(id[i],choicesWording[i],correct[i],advise[i],resourceType[i]);
+                i++;
+            }
+        }
 
     }
 
-
-    protected Advice getAdvice()
-    {
-        //Aqui se creara el objeto advice a partir de los datos que hayan llegado del servidor
-        Advice advice= new Advice("http://www.movilzona.es/", Advice.HTML);
-        //Advice advice= new Advice("El manifiesto de la aplicacion describe las diversas partes de que se compone la misma: actividades, servicios, broadcast receviers, y content provider de los que esta compuesta la aplicacion.......",Advice.HTML);
-        return advice;
-    }
-
-
-    public class Choice{
+    public class Choice {
+        private int id;
         private String wording;
-        private boolean correcta;
+        private boolean correct;
+        private String advise;
+        private String resourceType;
 
-        public Choice(String wording, boolean correcta){
+        public Choice(int id, String wording, boolean correct, String advise, String resourceType) {
+            this.id = id;
+            this.wording = wording;
+            this.correct = correct;
+            this.advise = advise;
+            this.resourceType = resourceType;
 
-            this.wording=wording;
-            this.correcta=correcta;
 
         }
 
-        public String getWording(){
 
-            return this.wording;
+        public int getId() {
+
+            return id;
         }
 
-        public boolean isCorrecta(){
-            return this.correcta;
+        public void setId(int id) {
+
+            this.id = id;
         }
 
+        public String getWording() {
 
+            return wording;
+        }
+
+        public void setWording(String wording) {
+
+            this.wording = wording;
+        }
+
+        public boolean isCorrect() {
+
+            return correct;
+        }
+
+        public void setCorrect(boolean correct) {
+
+            this.correct = correct;
+        }
+
+        public String getAdvise() {
+            return advise;
+        }
+
+        public void setAdvise(String advise) {
+            this.advise = advise;
+        }
+
+        public String getResourceType() {
+            return resourceType;
+        }
+
+        public void setResourceType(String resourceType) {
+            this.resourceType = resourceType;
+        }
     }
-    public class Advice
-    {
-        public final static int HTML=1;
-        public final static int IMAGE=2;
-        public final static int AUDIO=3;
-        public final static int VIDEO=4;
-        private String content;
-        private int type;
-
-        public Advice(String content,int type)
-        {
-            this.content=content;
-            this.type=type;
-        }
-        public String getContent()
-        {
-            return this.content;
-        }
-        public int getType()
-        {
-            return this.type;
-        }
-    }
-
-
 }

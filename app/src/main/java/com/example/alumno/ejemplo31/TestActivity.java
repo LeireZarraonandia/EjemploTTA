@@ -4,12 +4,9 @@ import android.content.Intent;
 import android.graphics.Color;
 
 import android.net.Uri;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
@@ -19,59 +16,57 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.Toolbar;
+import android.support.v7.widget.Toolbar;
 import android.widget.VideoView;
 import android.widget.MediaController;
 
+import com.example.alumno.ejemplo31.Test;
+
+import org.json.JSONException;
+import org.w3c.dom.Text;
+
 import java.io.IOException;
 
-public class TestActivity extends ActionBarActivity implements View.OnClickListener {
+public class TestActivity extends AppCompatActivity  {
+    private int correct;
+    private LinearLayout layout;
+    private Test test;
+    private String advise;
+    private String adviseType;
+    private Status user;
+    private View.OnClickListener listener;
 
-    private int correct=0;
-    private Test.Advice advise;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+      super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
-        
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
+        String frase[]=new String [5];
+        frase[0]="Version de la aplicacion";
+        frase[1]= "Listado de componentes de la aplicacion";
+        frase[2]="Opciones del menu de ajustes";
+        frase[3]="Nivel minimo de la API Android requerida";
+        frase[4]= "Nombre del paquete de la app";
 
-        Data data= new Data();
-        Test test= data.getTest();
-
-
-
-        TextView textWording=(TextView)findViewById(R.id.menu_test);
-        textWording.setText(test.getWording());
-
-
-        int i=0;
-
-        RadioGroup group= (RadioGroup)findViewById(R.id.test_choices);
-
-        for(Test.Choice choice : test.getChoices()){
-
-            RadioButton radio=new RadioButton(this);
-            radio.setText(choice.getWording());
-            radio.setOnClickListener(this);//hacer visible el botton enviar
-            group.addView(radio);
-            if(choice.isCorrecta()){
-                correct=i;
-            }
-            i++;
-
+        findViewById(R.id.button_help).setVisibility(View.INVISIBLE);
+        RadioGroup grupo = (RadioGroup) findViewById(R.id.test_choices);
+        for (int i=0;i<5;i++) {
+            RadioButton boton = new RadioButton(this);
+            boton.setText(frase[i]);
+            boton.setId(i);
+            boton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    findViewById(R.id.button_send_test).setVisibility(View.VISIBLE);
+                }
+            });
+            grupo.addView(boton);
         }
 
 
-        advise=test.getAdvice();
-
-    }
-
-    @Override
-    public void onClick(View view){
-
-        findViewById(R.id.button_send_test).setVisibility(View.VISIBLE);
 
     }
 
@@ -80,7 +75,7 @@ public class TestActivity extends ActionBarActivity implements View.OnClickListe
         int correct=1;
         Color color=new Color();
         Button enviar = (Button)findViewById(R.id.button_send_test);
-        TextView advise = (TextView)findViewById(R.id.ayuda);
+
 
 
         RadioGroup grupo = (RadioGroup) findViewById(R.id.test_choices);
@@ -98,9 +93,8 @@ public class TestActivity extends ActionBarActivity implements View.OnClickListe
         if (selected!=correct){
             grupo.getChildAt(selected).setBackgroundColor(color.RED);
             Toast.makeText(this, "Has fallado", Toast.LENGTH_SHORT).show();
-            if(advise==null){
-                findViewById(R.id.ayuda).setVisibility(View.VISIBLE);
-            }
+            findViewById(R.id.button_help).setVisibility(View.VISIBLE);
+
         }else{
             Toast.makeText(this, "Acierto", Toast.LENGTH_SHORT).show();
         }
@@ -108,28 +102,32 @@ public class TestActivity extends ActionBarActivity implements View.OnClickListe
 
     }
 
-    /*public void consejo(View view) {
+    public void consejo(View view) throws IOException{
+        RadioGroup group = (RadioGroup) findViewById(R.id.test_choices);
+        int selected = group.getCheckedRadioButtonId();
 
-        LinearLayout layout=(LinearLayout)findViewById(R.id.advice_layout);
-        switch (advise.getType())
+
+        switch (selected)
         {
-            case Test.Advise.HTML:
-                showHtml(advise.getContent(),layout);
+            case 0:
+                showHtml("https://es.wikipedia.org/wiki/Texto");
                 break;
-            case Test.Advise.IMAGE:
+            case 2:
+                showVideo("http://www.sample-videos.com/video/mp4/720/big_buck_bunny_720p_1mb.mp4");
                 break;
-            case Test.Advise.AUDIO:
+            case 3:
+                showAudio();
                 break;
-            case Test.Advise.VIDEO:
-                showVideo(advise.getContent(),layout);
+            case 4:
+                showText();
                 break;
             default:
                 break;
 
         }
 
-    }*/
-        private void showHtml(String advice,LinearLayout layout)
+    }
+        private void showHtml(String advice)
         {
             if(advice.substring(0,10).contains("://"))
             {
@@ -146,10 +144,12 @@ public class TestActivity extends ActionBarActivity implements View.OnClickListe
                 layout.addView(web);
             }
         }
-        private void showVideo(String advice,LinearLayout layout)
+        private void showVideo(String advice)
         {
+
             VideoView video=new VideoView(this);
             video.setVideoURI(Uri.parse(advice));
+            LinearLayout layout=(LinearLayout)findViewById(R.id.test_layout);
             ViewGroup.LayoutParams params=new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             video.setLayoutParams(params);
 
@@ -172,17 +172,46 @@ public class TestActivity extends ActionBarActivity implements View.OnClickListe
             layout.addView(video);
             video.start();
         }
-        public void showAudio(String advise){
-            View view=new View(this);
-            AudioPlayer audio=new AudioPlayer(view);
-            try {
-                audio.setAudioUri(Uri.parse(advise));
-            }
-            catch(IOException e) {
-            }
+        public void showAudio() throws IOException{
+
+            View view = new View(this);
+
+            AudioPlayer audio = new AudioPlayer(view);
             LinearLayout layout=(LinearLayout)findViewById(R.id.test_layout);
+
+            Uri uri = Uri.parse("http://www.noiseaddicts.com/samples_1w72b820/55.mp3");
+            audio.setAudioUri(uri);
+            ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+            view.setLayoutParams(params);
+
             layout.addView(view);
             audio.start();
+            /*View view=new View(this);
+            AudioPlayer audio=new AudioPlayer(view);
+            LinearLayout layout=(LinearLayout)findViewById(R.id.test_layout);
+            audio.setAudioUri(Uri.parse("http://www.noiseaddicts.com/samples_1w72b820/55.mp3"));
+
+            ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+            view.setLayoutParams(params);
+            layout.addView(view);
+            audio.start();*/
         }
+
+        private void showText(){
+            LinearLayout layout=(LinearLayout)findViewById(R.id.test_layout);
+            String Texto = "<html><body>Texto ayuda <b>HTML<b></body></html>";
+            WebView web=new WebView(this);
+            web.loadData(Texto, "text/html", null);
+            web.setBackgroundColor(Color.TRANSPARENT);
+            web.setLayerType(WebView.LAYER_TYPE_SOFTWARE,null);
+            layout.addView(web);
+        }
+
+
+
+
+
 
     }

@@ -1,30 +1,23 @@
 package com.example.alumno.ejemplo31;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Picture;
-import android.net.ConnectivityManager;
-import android.net.Network;
-import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
+import android.support.v7.widget.Toolbar;
 
-import java.io.DataOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 
 public class ExerciseActivity extends AppCompatActivity {
 
@@ -33,17 +26,18 @@ public class ExerciseActivity extends AppCompatActivity {
     public final static int AUDIO_REQUEST_CODE=3;
     public final static int PICTURE_REQUEST_CODE=4;
     private Uri pictureURI;
+    private Status user;
+    private Exercise exercise;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_exercise);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        final Data data = new Data();
-        setSupportActionBar(toolbar);
+                setContentView(R.layout.activity_exercise);
+                Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+                setSupportActionBar(toolbar);
 
 
-    }
+            }
 
     public void sendFile (View v){
 

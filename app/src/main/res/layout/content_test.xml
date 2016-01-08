@@ -46,19 +46,17 @@
         android:visibility="invisible"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/button_help"/>
+        android:text="@string/button_help"
+        android:onClick="consejo"/>
+
+
 
     <TextView
-        android:id="@+id/ayuda"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="left"
-        android:textSize="18dp"
-        android:text="@string/ayuda"/>
-
-    <LinearLayout
+        android:id="@+id/help"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:id="@+id/advice_layout"/>
+        android:gravity="left"
+        android:textSize="18dp"/>
+
+
 </LinearLayout>

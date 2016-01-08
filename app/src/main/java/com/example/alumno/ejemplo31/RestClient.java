@@ -57,8 +57,11 @@ public class RestClient {
         HttpURLConnection conn = null;
         try{
             conn = getConnection(path);
-            try (BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()))) {
+            try  {
+                BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
                 return br.readLine();
+            }catch (IOException e){
+                return null;
             }
         }finally {
             if (conn != null)
@@ -107,6 +110,8 @@ public class RestClient {
             try(PrintWriter pw = new PrintWriter(conn.getOutputStream())){
                 pw.print(json.toString());
                 return conn.getResponseCode();
+            }catch (IOException e){
+                return 0;//mirar!!!
             }
         }finally {
             if (conn != null)

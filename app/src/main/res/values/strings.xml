@@ -7,7 +7,7 @@
     <string name="title_activity_test">TestActivity</string>
     <string name="button_send">Enviar test</string>
     <string name="button_help">Ayuda</string>
-    <string name="ayuda">Texto de ayuda</string>
+    <string name="ayuda">Ayuda</string>
     <string name="title_activity_exercise">ExerciseActivity</string>
     <string name="subir_fichero">Subir fichero</string>
     <string name="sacar_foto">Sacar foto</string>

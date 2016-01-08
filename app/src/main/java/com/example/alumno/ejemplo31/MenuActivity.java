@@ -13,9 +13,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
-public class MenuActivity extends ModelActivity {
-    public final RestClient rest=new RestClient(baseURL);
-    Business business=new Business(rest);
+public class MenuActivity extends AppCompatActivity {
+    private Status user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,26 +36,14 @@ public class MenuActivity extends ModelActivity {
     }
 
     public void test (View view) {
-        Intent intent = new Intent(this, TestActivity.class);
-
+        final Intent intent = new Intent(this, TestActivity.class);
         startActivity(intent);
     }
 
-    public void exercise (View view) {
-        final Intent intent = new Intent(this, ExerciseActivity.class);
 
-        new ProgressTask<Exercise>(this){
-            @Override
-            protected Exercise work()throws Exception{
-                return business.getExercise(1);//devuelve el enunciado del ejercicio
-            }
-            @Override
-            public void onFinish(Exercise result){
-                TextView textWording=(TextView)findViewById(R.id.exercise_wording);
-                textWording.setText(result.getWording());
-                startActivity(intent);
-                Toast.makeText(getApplicationContext(), "onFinish", Toast.LENGTH_SHORT).show();
-            }
-        }.execute();
+    public void exercise (View view) {
+        Intent intent = new Intent(this, ExerciseActivity.class);
+        startActivity(intent);
+
     }
 }
